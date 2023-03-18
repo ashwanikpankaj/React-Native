@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
+import AddTodo from "./components/AddTodo";
 import Header from "./components/Header";
 import TodoItem from "./components/TodoItem";
 
@@ -8,23 +9,34 @@ export default function App() {
     { text: "buy coffee", key: 1 },
     { text: "go to gym", key: 2 },
     { text: "cook fodd", key: 3 },
+    { text: "play football", key: 4 },
   ]);
 
   const pressHandler = (key) => {
     const filterTodos = todos.filter((item) => item.key !== key);
-    setTodos(filterTodos)
+    setTodos(filterTodos);
   };
+
+  const handleAddTodo = (text)=>{
+    const getArrLength = todos.length
+    console.log(todos)
+    setTodos([...todos,{key:getArrLength+1,text}])
+  }
 
   return (
     <View style={styles.container}>
+      <Header />
       <View style={styles.content}>
-        <Header />
+        <AddTodo handleAddTodo={handleAddTodo} />
       </View>
       <View style={styles.list}>
         <FlatList
           data={todos}
           renderItem={({ item }) => (
-            <TodoItem item={item.text} pressHandler={() => pressHandler(item.key)} />
+            <TodoItem
+              item={item.text}
+              pressHandler={() => pressHandler(item.key)}
+            />
           )}
         />
       </View>
@@ -38,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
+    marginTop: 120,
   },
   content: {
     padding: 40,
