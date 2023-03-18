@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList,TouchableWithoutFeedback,Keyboard } from "react-native";
 import AddTodo from "./components/AddTodo";
 import Header from "./components/Header";
 import TodoItem from "./components/TodoItem";
 
 export default function App() {
   const [todos, setTodos] = useState([
-    { text: "buy coffee", key: 1 },
+    { text: "buy coffee", key: 1 },//if we add key for it is used internally for the FlatList
     { text: "go to gym", key: 2 },
     { text: "cook fodd", key: 3 },
     { text: "play football", key: 4 },
@@ -24,23 +24,25 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.content}>
-        <AddTodo handleAddTodo={handleAddTodo} />
+    <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <Header />
+        <View style={styles.content}>
+          <AddTodo handleAddTodo={handleAddTodo} />
+        </View>
+        <View style={styles.list}>
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => (
+              <TodoItem
+                item={item.text}
+                pressHandler={() => pressHandler(item.key)}
+              />
+            )}
+          />
+        </View>
       </View>
-      <View style={styles.list}>
-        <FlatList
-          data={todos}
-          renderItem={({ item }) => (
-            <TodoItem
-              item={item.text}
-              pressHandler={() => pressHandler(item.key)}
-            />
-          )}
-        />
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 

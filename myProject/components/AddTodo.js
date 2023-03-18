@@ -1,4 +1,4 @@
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 
 const AddTodo = ({ handleAddTodo }) => {
@@ -9,8 +9,14 @@ const AddTodo = ({ handleAddTodo }) => {
   };
 
   const pressHandler = () => {
+    if(text.length > 3){
     handleAddTodo(text);
     setText("");
+    }
+    else{
+        Alert.alert('OOP!','Character must be three character long',[{text:'Understood',onPress:()=>console.log('pressed')}])
+    }
+
   };
 
   return (
